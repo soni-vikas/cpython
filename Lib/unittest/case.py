@@ -1044,6 +1044,20 @@ class TestCase(object):
         """
         self.assertSequenceEqual(list1, list2, msg, seq_type=list)
 
+    def assertListContainsSubset(self, subset, list_superset, msg=None):
+        """Checks whether list_superset is a superset of subset."""
+
+        missing = [item for item in subset if item not in list_superset]
+
+        if not missing:
+            return
+
+        standardMsg = ''
+        if missing:
+            standardMsg = 'Missing: %s' % ', '.join(safe_repr(m) for m in missing)
+
+        self.fail(self._formatMessage(msg, standardMsg))
+
     def assertTupleEqual(self, tuple1, tuple2, msg=None):
         """A tuple-specific equality assertion.
 
